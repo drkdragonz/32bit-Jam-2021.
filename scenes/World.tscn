@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/shaders/psx cull_disabled.shader" type="Shader" id=1]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/World.gd" type="Script" id=3]
+[ext_resource path="res://scenes/TestCube.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/textures/grey-pattern.png" type="Texture" id=5]
+[ext_resource path="res://scenes/MoonSurface.tscn" type="PackedScene" id=6]
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 1 )
+shader_param/snapRes = 8.0
+shader_param/roughness = 1.0
+shader_param/specular = 0.1
+shader_param/uv_scale = Vector2( 10, 10 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/light_intensity = 0.3
+shader_param/transparent = false
+shader_param/albedoTex = ExtResource( 5 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 5, 0.5, 5 )
+
+[node name="World" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -0.263421, -0.555611, 0.78861, -0.142918, 0.830939, 0.537694, -0.954035, 0.0289333, -0.298294, 0, 13.9511, 0 )
+shadow_enabled = true
+
+[node name="Walls" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6219, 0, -8.26041 )
+
+[node name="Wall" type="CSGCombiner" parent="Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.44373, 0.216602, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CSGBox" type="CSGBox" parent="Walls/Wall"]
+width = 10.0
+height = 1.0
+depth = 10.0
+material = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="Walls/Wall"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007, -0.0476255, 0 )
+shape = SubResource( 4 )
+
+[node name="Wall2" type="CSGCombiner" parent="Walls"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -10.5917, 4.96929, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CSGBox" type="CSGBox" parent="Walls/Wall2"]
+width = 10.0
+height = 1.0
+depth = 10.0
+material = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="Walls/Wall2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall2/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007, -0.0476255, 0 )
+shape = SubResource( 4 )
+
+[node name="Wall3" type="CSGCombiner" parent="Walls"]
+transform = Transform( 1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, -5.42944, 4.96929, -5.2854 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CSGBox" type="CSGBox" parent="Walls/Wall3"]
+width = 10.0
+height = 1.0
+depth = 10.0
+material = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="Walls/Wall3"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall3/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.007, -0.0476255, 0 )
+shape = SubResource( 4 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.9688, 1.90374, -8.1823 )
+
+[node name="Cubes" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6219, 0, -8.26041 )
+
+[node name="TestCube" parent="Cubes" instance=ExtResource( 4 )]
+transform = Transform( 0.735079, 0, -0.677981, 0, 1, 0, 0.677981, 0, 0.735079, -2.96121, 3.57815, 2.037 )
+
+[node name="TestCube2" parent="Cubes" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.37639, 1.54141, 2.037 )
+
+[node name="TestCube3" parent="Cubes" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35618, 1.6853, -3 )
+
+[node name="MoonSurface" parent="." instance=ExtResource( 6 )]
